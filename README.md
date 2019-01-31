@@ -1,3 +1,2 @@
 # specialized-neural-network
---
-experiment for cifar-10
+- experiment for cifar-10
