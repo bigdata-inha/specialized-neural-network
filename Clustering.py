@@ -13,8 +13,24 @@ def data_to_BGRimage(single_data):
     image = np.concatenate((img_B, img_G, img_R), axis=2)
     return image
 
-def to_hist(single_data):
+def save_cluster_result(full_data, cluster_label):
+    for i in range(len(cluster_label)):
+        pathlib.Path('cluster-result/cluster%d' % i).mkdir(exist_ok=True)
+        cluster_i = full_data[cluster_label == i]
+        img_idx = 0
+        for row in cluster_i:
+            img = data_to_BGRimage(row)
+            cv2.imwrite('cluster-result/cluster%d/img%d.jpg' % (i, img_idx), img)
+            img_idx = img_idx + 1
     return
+
+def to_hist(full_data):
+    R, G, B = full_data[:, :1024], full_data[:, 1024:2048], full_data[:, 2048:]
+    hist_R = np.apply_along_axis(lambda x: np.bincount(x, minlength=256), axis=1, arr=R)
+    hist_G = np.apply_along_axis(lambda x: np.bincount(x, minlength=256), axis=1, arr=G)
+    hist_B = np.apply_along_axis(lambda x: np.bincount(x, minlength=256), axis=1, arr=B)
+    hist_full = np.concatenate((hist_R, hist_G, hist_B), axis=1)
+    return hist_full
 
 
 import os
@@ -28,26 +44,22 @@ from sklearn.cluster import KMeans
 if __name__ == "__main__":
 
     directory_list = glob.glob('cifar-10-batches/data_batch_*')
-    data, label = np.array([]).reshape(0, 3072), np.array([])
+    data, label = np.array([], dtype='uint8').reshape(0, 3072), np.array([])
     for dir_batch in directory_list:
         partial_data, partial_label = load_data(dir_batch)
         data = np.vstack([data, partial_data])
         label = np.append(label, partial_label)
 
+    # clustering by image RGB values
+    #print('model fitting start:', datetime.datetime.now().strftime('%H:%M:%S'))
+    #model = KMeans(n_clusters=100, random_state=1).fit(data)
+    #print('model fitting end:', datetime.datetime.now().strftime('%H:%M:%S'))
+
+    # clustering by image RGB histogram
+    hist_data = to_hist(data)
     print('model fitting start:', datetime.datetime.now().strftime('%H:%M:%S'))
-    model = KMeans(n_clusters=100, random_state=1).fit(data)
+    model = KMeans(n_clusters=100, random_state=1).fit(hist_data)
     print('model fitting end:', datetime.datetime.now().strftime('%H:%M:%S'))
-
-    cluster_label = model.labels_
-    idx = np.zeros(100)
-    for i in range(100):
-        pathlib.Path('cifar-10-image/cluster%d' % i).mkdir(exist_ok=True)
-        i_cluster = data[cluster_label == i]
-        for row in i_cluster:
-            img = data_to_BGRimage(row)
-            cv2.imwrite('cifar-10-image/cluster%d/img%d.jpg' % (i, idx[i]), img)
-            idx[i] = idx[i] + 1
-
-
-                
+    
+    
 
