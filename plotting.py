@@ -25,12 +25,12 @@ def show_train_per_epochs(history):
     return
 
 
-def show_train_per_time(history, time_callback):
+def show_train_per_time(history, callback):
     acc = history.history['acc']
     val_acc = history.history['val_acc']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
-    times = time_callback.times
+    times = callback.times
 
     plt.plot(times, acc, 'bo', label='Training acc')
     plt.plot(times, val_acc, 'b', label='Validation acc')

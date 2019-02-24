@@ -3,6 +3,8 @@ import numpy as np
 import pathlib
 from sklearn.cluster import KMeans
 
+## don't use for Tiny Imagenet
+
 def data_to_BGR_image(single_data):
     img_R = single_data[1024].reshape(32, 32, 1)
     img_G = single_data[1024:2048].reshape(32, 32, 1)
