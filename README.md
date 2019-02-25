@@ -1,5 +1,5 @@
 # specialized-neural-network
-- experiment for cifar-10
+- experiment for [TinyImagenet](https://tiny-imagenet.herokuapp.com/)
 ```
 1. Learning full model 
 2. Dividing k clustering(k-means)
