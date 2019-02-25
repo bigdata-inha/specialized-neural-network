@@ -83,7 +83,7 @@ def load_tiny_imagenet(directory):
     return train_data, train_labels, test_data, test_labels
 
 
-def crop_tiny_image_generator(batch_size=64):
+def crop_tiny_image_generator(batch_size=64, is_cluster=False):
     def random_crop(img, random_crop_size):
         # Note: image_data_format is 'channel_last'
         assert img.shape[2] == 3
@@ -111,10 +111,21 @@ def crop_tiny_image_generator(batch_size=64):
     train_labels, test_labels = to_categorical(train_labels, 200), to_categorical(test_labels, 200)
 
     # sample data
-    idx = np.random.choice(len(train_data), 10000)
-    train_data, train_labels = train_data[idx], train_labels[idx]
-    idx = np.random.choice(len(test_data), 1000)
-    test_data, test_labels = test_data[idx], test_labels[idx]
+    if is_cluster:
+        with open("10_kmeans_model.sav", 'rb') as fo:
+            cluster = pickle.load(fo)
+        test_for_clus = test_data.reshape(-1, 12288)
+        cluster_pred = cluster.predict(test_for_clus)
+        train_data, train_labels = train_data[cluster.labels_ == 4], train_labels[cluster.labels_ == 4]
+        test_data, test_labels = test_data[cluster_pred == 4], test_labels[cluster_pred == 4]
+        train_data, train_labels = train_data[:10000], train_labels[:10000]
+        test_data, test_labels = test_data[:1000], test_labels[:1000]
+        del test_for_clus
+    else:
+        idx = np.random.choice(len(train_data), 10000)
+        train_data, train_labels = train_data[idx], train_labels[idx]
+        idx = np.random.choice(len(test_data), 1000)
+        test_data, test_labels = test_data[idx], test_labels[idx]
 
     # make generator
     train_datagen = ImageDataGenerator(
