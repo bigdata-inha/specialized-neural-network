@@ -6,5 +6,7 @@
 3. Learning model to k cluster sperately
 4. Comparing 2 model
 ```
-**full model training**  
+**Full Model training**  
 <img src="./img/full_model_training.png" width="50%" height="50%">
+
+**Both Reduced Model training**  
