@@ -7,4 +7,5 @@
 4. Comparing 2 model
 ```
 **full model training** 
+
 ![full_model](./img/full_model_training.png)
