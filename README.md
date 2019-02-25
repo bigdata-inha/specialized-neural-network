@@ -7,4 +7,4 @@
 4. Comparing 2 model
 ```
 **full model training**  
-![full_model](./img/full_model_training.png | width=100)
+<img src="./img/full_model_training.png" width="200" height="300">
