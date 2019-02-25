@@ -1,5 +1,5 @@
 # specialized-neural-network
-- experiment for [TinyImagenet](https://tiny-imagenet.herokuapp.com/)
+- experiment for [Tiny Imagenet](https://tiny-imagenet.herokuapp.com/)
 ```
 1. Learning full model 
 2. Dividing k clustering(k-means)
