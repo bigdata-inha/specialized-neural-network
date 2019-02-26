@@ -7,6 +7,6 @@
 4. Comparing 2 model
 ```
 **Full Model training**  
-<img src="./img/full_model_training.png" width="50%" height="50%">
+<img src="./img/full_model_training.png" width="45%" height="45%">
 
 **Both Reduced Model training**  
