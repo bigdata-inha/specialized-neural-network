@@ -9,4 +9,4 @@
 **Full Model training**  
 <img src="./img/full_model_training.png" width="45%" height="45%">
 
-**Both Reduced Model training**  
+**Both Reduced Model training (clusterd data)**  
