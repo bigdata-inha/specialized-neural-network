@@ -37,6 +37,45 @@ def load_cifar10_img_form(directory):
     train_data, test_data = np.concatenate((R, G, B), axis=3), np.concatenate((testR, testG, testB), axis=3)
     return train_data, train_labels, test_data, test_labels
 
+def load_imagenet(directory):
+    """ load all of imagenet data as flat vector"""
+    path_train, path_val = directory + '/ILSVRC2012_img_train', directory + '/ILSVRC2012_img_val'
+    train_labels = os.listdir(path_train)
+    train_data = []
+    for label in train_labels:
+        imgs_path = os.path.join(path_train, label)
+        imgs = os.listdir(imgs_path)
+        for img_name in imgs:
+            img_path = os.path.join(imgs_path, img_name)
+            img = cv2.imread(img_path)
+            b, g, r = cv2.split(img)
+            img = cv2.merge([r,g,b]).reshape(-1, 64, 64, 3)
+            train_data.append(img)
+            train_labels.append(label)
+    train_data = np.concatenate(train_data)
+    train_labels = np.array(train_labels, dtype='str')
+    
+    test_labels = os.listdir(path_val)
+    test_data = []
+    for label in test_labels:
+        imgs_path = os.path.join(path_val, label)
+        for img_name in imgs:
+            img_path = os.path.join(imgs_path, img_name)
+            img = cv2.imread(img_path)
+            b, g, r = cv2.split(img)
+            img = cv2.merge([r,g,b]).reshape(-1, 64, 64, 3)
+            test_data.append(img)
+            test_labels.append(label)
+    test_data = np.concatenate(test_data)
+    test_labels = np.array(test_labels, dtype='str')
+    
+    _, train_labels = np.unique(train_labels, return_inverse=True)
+    _, test_labels = np.unique(test_labels, return_inverse=True)
+    
+    del r, g, b, imgs_path, img_name, img, imgs
+    
+    return train_data, train_labels, test_data, test_labels
+
 def load_tiny_imagenet(directory):
     """ load all of imagenet data as flat vector"""
     path_train, path_val, path_test = directory + '/train', directory + '/val', directory + '/test'
