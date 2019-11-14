@@ -42,3 +42,4 @@ class time_config(callbacks.Callback):
             else:
                 print("Epoch %d: early stopping" % (epoch))
                 self.model.stop_training = True
+                
