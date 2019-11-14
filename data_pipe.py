@@ -184,4 +184,3 @@ def crop_tiny_image_generator(batch_size=64, is_cluster=False):
     test_crop_generator = random_crop_generator(test_generator, 56)
 
     return train_crop_generator, test_crop_generator
-
