@@ -134,6 +134,3 @@ def both_reduced_model(num_classes, input_shape):
     model.add(layers.Dense(num_classes, activation='softmax'))
 
     return model
-
-
-
