@@ -14,3 +14,4 @@
 
 **Both Reduced Model training (clusterd data)**  
 <img src="./img/both_reduced_model_training_using_clustered.png" width="45%" height="45%">
+
