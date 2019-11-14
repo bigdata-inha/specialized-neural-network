@@ -49,5 +49,3 @@ def make_cluster(full_data, k=10, cluster_way=1, random_state=1, is_save_as_img=
         directory = 'cluster-result/%d-means-%s-cluster' % (k, cluster_way)
         save_image_by_cluster(directory, full_data, cluster_labels)
     return model
-    
-
